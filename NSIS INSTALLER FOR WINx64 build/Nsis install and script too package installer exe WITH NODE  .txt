@@ -1,0 +1,69 @@
+
+---- How to easily create an .exe file too open and run a project , 
+using a NSIS script 
+
+
+
+
+how do I take an existing , working , electron application that I am working on developing on , and build that into a successful nsis installer for a 64 bit windows, while using electron-build ? 
+ChatGPT
+To build your Electron application into a successful NSIS installer for a 64-bit Windows using electron-builder, you can follow these steps:
+
+Configure electron-builder: Ensure that you have electron-builder installed in your project by running npm install electron-builder --save-dev if you haven't already. Next, create a build section in your package.json file with the required configuration for electron-builder. Here's an example:
+json
+Copy code
+"build": {
+  "appId": "com.example.myapp",
+  "productName": "MyApp",
+  "directories": {
+    "output": "dist"
+  },
+  "win": {
+    "target": [
+      "nsis"
+    ]
+  }
+}
+Make sure to replace the appId and productName with your own values. The "target": ["nsis"] specifies that you want to build an NSIS installer for Windows.
+
+Package your application: To package your Electron application, run the following command:
+bash
+Copy code
+npx electron-builder build
+This will create a folder named dist (or according to your specified output directory) containing the packaged application.
+
+Install NSIS: Download and install the Nullsoft Scriptable Install System (NSIS) from the official website: https://nsis.sourceforge.io/Download.
+
+Create an NSIS script: In the root directory of your project,
+
+& *** create a new file named installer.nsi 
+
+(or any name you prefer) and add the following basic script:
+
+nsis
+Copy code
+# Name of the installer
+Outfile "Win0zXP.exe"
+
+# Default section
+Section
+
+# Output directory and files to include
+SetOutPath $INSTDIR
+File /r "dist\*"
+
+SectionEnd
+You can modify the script to include additional customization as per your requirements.
+
+Build the NSIS installer: Open a command prompt or terminal in the directory where your installer.nsi script is located and run the following command:
+bash
+Copy code
+
+makensis installer.nsi
+
+
+
+This command will compile the NSIS script and generate the MyAppInstaller.exe file.
+
+Test the installer: Once the build process completes, you can test the installer by running the generated MyAppInstaller.exe file. It should install your Electron application on the 64-bit Windows machine.
+These steps should help you build a successful NSIS installer for your Electron application using electron-builder. Remember to customize the configuration and NSIS script according to your project's specific requirements.
